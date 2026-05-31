@@ -45,7 +45,7 @@ of round / curved structures.
 - [`jjstwerff/loft`](https://github.com/jjstwerff/loft) — the embedded scripting
   language lavition uses for plugin code + project automation.
 - [`loft-lang/loft-libs-world`](https://github.com/loft-lang/loft-libs-graphics)
-  (planned) — the `hexworld` + `hex_walls` data primitives (libraries
+  (planned) — the `hex_world` + `hex_walls` data primitives (libraries
   lavition edits and games consume at runtime).
 - **Consumers:** moros, dryopea, bumper-airplanes and any future hex-grid
   game that imports the same data libraries.
