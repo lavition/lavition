@@ -40,18 +40,61 @@ of round / curved structures.
     carry their own (limited) animation tracks, so a stencil-as-item is more
     than a static prop.
 
-## Relationship to other repos
+## How it fits — the loft ecosystem
 
-- [`jjstwerff/loft`](https://github.com/jjstwerff/loft) — the embedded scripting
-  language lavition uses for plugin code + project automation.
-- [`loft-lang/loft-libs-world`](https://github.com/loft-lang/loft-libs-graphics)
-  (planned) — the `hex_world` + `hex_walls` data primitives (libraries
-  lavition edits and games consume at runtime).
-- **Consumers:** moros, dryopea, bumper-airplanes and any future hex-grid
-  game that imports the same data libraries.
+Lavition is the *editor* tier of a two-tier ecosystem:
+
+- **[loft](https://github.com/jjstwerff/loft)** — the embedded scripting
+  language + standard libraries.  A pure runtime: games depend on loft
+  at runtime, not on lavition.
+- **lavition** (this repo / org) — the editor product built on top of
+  loft.  Used during game development; not a runtime dependency.
+
+Games (moros, dryopea, bumper-airplanes, future indie projects)
+consume loft + its libraries at runtime; they use lavition during
+development.  A built game ships without lavition.
+
+## Library architecture
+
+Lavition reads and writes data from the loft library ecosystem,
+organised by tier-of-concern across six chunks under
+[loft-lang](https://github.com/loft-lang):
+
+| Chunk | Role |
+|---|---|
+| `loft-libs-core` | utilities (arguments, random, crypto) |
+| `loft-libs-net` | networking (web client, server, game protocol) |
+| `loft-libs-graphics` | rendering — OpenGL bindings, 2D canvas, sprite, text |
+| `loft-libs-assets` | file formats — PNG, glTF binary |
+| `loft-libs-game` | game systems — physics, particles, input, time, audio |
+| `loft-libs-world` | hex-grid world data — addressing, walls, terrain, items |
+
+A `lavition_stack` meta-package bundles the common subset so a new
+game's manifest is one line, not seven.
+
+**Lavition consumes everything**; games consume the subset they need.
+A multiplayer server skips graphics + assets entirely; a single-player
+game skips net; an asset-processing tool installs only `loft-libs-assets`.
+
+### Editor plugins
+
+Lavition's editor framework loads plugins from this org.  Each plugin
+authors ONE data type from the loft library ecosystem:
+
+- `lavition_hex_editor` — authors hex_walls
+- `lavition_terrain_paint` — authors hex_terrain
+- `lavition_item_placer` — authors hex_items (stencil-as-item placement)
+- `lavition_layer_panel` — manages vertical layers
+- `lavition_stencil_library` — manages reusable stencils
+- `lavition_glb_inspector` — imports / exports glb assets
+
+(Plugin set evolves; this list is the initial target.)
 
 ## Status
 
-Namespace claimed 2026-05-31.  Engine source is on the roadmap (see
-`lib_plans/24-universal-editor/` in the loft monorepo); this repo will
-gain concrete content as the design lands.
+Namespace claimed 2026-05-31.  Library design + chunk topology
+captured in
+[`doc/claude/LAVITION.md`](https://github.com/jjstwerff/loft/blob/main/doc/claude/LAVITION.md)
+in the loft monorepo.  Engine source is on the roadmap; this repo
+will gain concrete content (`lavition_core`, plugin host, editor
+binary) as the underlying library chunks ship.
