@@ -9,7 +9,26 @@
   for (const k in t) o[k] = t[k];
   for (const k in b) { const s = atob(b[k]); const u = new Uint8Array(s.length);
     for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); o[k] = u; }
-  return o; })();</script>
+  return o; })();
+(() => {
+  var deb = 0;
+  var fit = function () {
+    var c = document.getElementById('c');
+    if (!c || c.style.display === 'none') return false;
+    var w = Math.max(320, document.documentElement.clientWidth);
+    var h = Math.max(240, document.documentElement.clientHeight);
+    c.style.width = w + 'px'; c.style.height = h + 'px';
+    if (c.width !== w || c.height !== h) { c.width = w; c.height = h; }
+    return true;
+  };
+  var t = setInterval(function () { if (fit()) clearInterval(t); }, 100);
+  addEventListener('resize', function () {
+    clearTimeout(deb); deb = setTimeout(fit, 150);
+  });
+  var st = document.createElement('style');
+  st.textContent = 'html,body{height:100%;overflow:hidden}';
+  document.head.appendChild(st);
+})();</script>
 <script>
 // Copyright (c) 2026 Jurjen Stellingwerff
 // SPDX-License-Identifier: LGPL-3.0-or-later
