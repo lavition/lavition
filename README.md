@@ -40,6 +40,27 @@ of round / curved structures.
     carry their own (limited) animation tracks, so a stencil-as-item is more
     than a static prop.
 
+## Try it — the editor in your browser
+
+**<https://lavition.github.io/lavition/>** — one page, no install, no server. It edits
+its own world in the browser and keeps it across reloads.
+
+Click the canvas once so it has the keyboard, then:
+
+| | |
+|---|---|
+| `W` `S` · `A` `D` | walk along your facing · strafe — the keyboard is shaped like a controller's left stick |
+| drag the mouse | turn — the right stick. A gamepad's sticks do the same three things |
+| `m` | a plan of where you stand, over the picture; click a cell to pick it, and the next verb lands there |
+| `f` `h` `1` `g` `r` `t` | fence · house · tower · wall · run · aim, where you stand (or at the pick) |
+| `ArrowUp` `ArrowDown` | raise · lower the ground ahead |
+| `Tab` | cycle the part catalogue; `l` levels the ground as you walk |
+| `Escape`, click a slot, press a key | rebind any verb — it is saved with the page |
+
+The page is built from [`jjstwerff/moros`](https://github.com/jjstwerff/moros)
+(`src/editor_client.loft`, `make pages`) and published here by
+`tools/publish-lavition.sh`; the commit it was built from is in the `gh-pages` log.
+
 ## How it fits — the loft ecosystem
 
 Lavition is the *editor* tier of a two-tier ecosystem:
